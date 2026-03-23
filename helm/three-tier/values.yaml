@@ -1,11 +1,11 @@
+# values.yaml for three-tier application
+
 frontend:
   image:
     repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/frontend
-    tag: latest
+    tag: latest          # Jenkins pipeline can override this with --set frontend.image.tag=...
     pullPolicy: IfNotPresent
-
   replicas: 2
-
   service:
     type: ClusterIP
     port: 80
@@ -13,21 +13,20 @@ frontend:
 backend:
   image:
     repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/backend
-    tag: latest
+    tag: latest          # Jenkins pipeline can override this with --set backend.image.tag=...
     pullPolicy: IfNotPresent
-
   replicas: 2
-
   service:
     type: ClusterIP
     port: 3000
-
   env:
-    DB_HOST: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com:3306
+    DB_HOST: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com
+    DB_PORT: 3306
     DB_NAME: testdb
 
 db:
-  host: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com:3306
+  host: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com
+  port: 3306
   name: testdb
 
 secrets:
