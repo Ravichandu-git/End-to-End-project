@@ -6,13 +6,15 @@ pipeline {
     ACCOUNT_ID = "742710068961"
     ECR_REPO = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-app"
     CLUSTER_NAME = "three-tier-eks"
+    GITHUB_TOKEN = credentials('github-token')
   }
 
   stages {
 
     stage('Checkout Code') {
       steps {
-        git 'https://github.com/Ravichandu-git/End-to-End-project/three-tier-app.git'
+        git url: 'https://github.com/Ravichandu-git/End-to-End-project.git'
+        credentialsId: 'github-token'
       }
     }
 
