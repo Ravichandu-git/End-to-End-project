@@ -1,0 +1,73 @@
+# ========================
+# FRONTEND CONFIG
+# ========================
+frontend:
+  image:
+    repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  replicas: 2
+
+  service:
+    type: ClusterIP
+    port: 80
+
+# ========================
+# BACKEND CONFIG
+# ========================
+backend:
+  image:
+    repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/backend
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  replicas: 2
+
+  service:
+    type: ClusterIP
+    port: 3000
+
+  env:
+    DB_HOST: your-rds-endpoint
+    DB_NAME: testdb
+
+# ========================
+# DATABASE (RDS)
+# ========================
+db:
+  host: your-rds-endpoint
+  name: testdb
+
+# ========================
+# SECRETS
+# ========================
+secrets:
+  dbUser: admin
+  dbPassword: password
+
+# ========================
+# INGRESS (ALB)
+# ========================
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+
+# ========================
+# AUTOSCALING
+# ========================
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+# ========================
+# GLOBAL SETTINGS
+# ========================
+imagePullSecrets: []
+nodeSelector: {}
+tolerations: []
+affinity: {}
