@@ -7,16 +7,20 @@ pipeline {
     ECR_REPO = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-app"
     CLUSTER_NAME = "three-tier-eks"
     GITHUB_TOKEN = credentials('github-token')
+    KUBECONFIG = '/var/lib/jenkins/.kube/config'
   }
 
   stages {
 
-    stage('Checkout Code') {
-      steps {
-        git url: 'https://github.com/Ravichandu-git/End-to-End-project.git'
-        credentialsId: 'github-token'
-      }
+   stage('Checkout') {
+    steps {
+        git(
+            url: 'https://github.com/Ravichandu-git/End-to-End-project.git',
+            branch: 'main',                // use your repo's default branch
+            credentialsId: 'github-token'  // must match Jenkins credential ID
+        )
     }
+}
 
     stage('Build Docker Images') {
       steps {
@@ -37,22 +41,22 @@ pipeline {
     }
 
     stage('Tag Images') {
-      steps {
+    steps {
         sh '''
-        docker tag frontend:${BUILD_NUMBER} $ECR_REPO/frontend:${BUILD_NUMBER}
-        docker tag backend:${BUILD_NUMBER} $ECR_REPO/backend:${BUILD_NUMBER}
+        docker tag frontend:${BUILD_NUMBER} $ECR_REPO:frontend-${BUILD_NUMBER}
+        docker tag backend:${BUILD_NUMBER}  $ECR_REPO:backend-${BUILD_NUMBER}
         '''
-      }
     }
+}
 
-    stage('Push to ECR') {
-      steps {
+stage('Push to ECR') {
+    steps {
         sh '''
-        docker push $ECR_REPO/frontend:${BUILD_NUMBER}
-        docker push $ECR_REPO/backend:${BUILD_NUMBER}
+        docker push $ECR_REPO:frontend-${BUILD_NUMBER}
+        docker push $ECR_REPO:backend-${BUILD_NUMBER}
         '''
-      }
     }
+}
 
     stage('Update kubeconfig') {
       steps {
@@ -73,6 +77,5 @@ pipeline {
         '''
       }
     }
-
   }
 }
