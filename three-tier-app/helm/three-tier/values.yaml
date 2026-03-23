@@ -23,11 +23,11 @@ backend:
     port: 3000
 
   env:
-    DB_HOST: your-rds-endpoint
+    DB_HOST: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com:3306
     DB_NAME: testdb
 
 db:
-  host: your-rds-endpoint
+  host: mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com:3306
   name: testdb
 
 secrets:
