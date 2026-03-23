@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3-Tier App</title>
+</head>
+<body>
+  <h1>3-Tier App on EKS</h1>
+  <button onclick="loadData()">Fetch Data</button>
+  <p id="result"></p>
+
+  <script>
+    function loadData() {
+      fetch("/api")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("result").innerText = data;
+        });
+    }
+  </script>
+</body>
+</html>
