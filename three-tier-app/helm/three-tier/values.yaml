@@ -4,7 +4,7 @@
 frontend:
   image:
     repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/frontend
-    tag: latest
+    tag: ${BUILD_NUMBER}
     pullPolicy: IfNotPresent
 
   replicas: 2
@@ -19,7 +19,7 @@ frontend:
 backend:
   image:
     repository: 742710068961.dkr.ecr.ap-south-1.amazonaws.com/my-app/backend
-    tag: latest
+    tag: ${BUILD_NUMBER}
     pullPolicy: IfNotPresent
 
   replicas: 2
