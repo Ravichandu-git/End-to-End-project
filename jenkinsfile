@@ -64,18 +64,20 @@ stage('Push to ECR') {
         aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
         '''
       }
-    }
+   }
 
-    stage('Deploy using Helm') {
-      steps {
-        sh '''
-        helm upgrade --install three-tier ./helm/three-tier \
-        --set frontend.image.repository=$ECR_REPO/frontend \
-        --set backend.image.repository=$ECR_REPO/backend \
-        --set frontend.image.tag=${BUILD_NUMBER} \
-        --set backend.image.tag=${BUILD_NUMBER}
-        '''
-      }
-    }
+    stage('Deploy to Kubernetes') {
+  steps {
+    sh '''
+    sed -i "s/REPLACE_TAG/${BUILD_NUMBER}/g" k8s/*.yaml
+
+    kubectl apply -f k8s/backend.yaml
+    kubectl apply -f k8s/backend-service.yaml
+    kubectl apply -f k8s/frontend.yaml
+    kubectl apply -f k8s/frontend-service.yaml
+    '''
+  }
+}
+
   }
 }
