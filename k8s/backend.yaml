@@ -26,6 +26,6 @@ spec:
         - name: DB_USER
           value: "admin"
         - name: DB_PASSWORD
-          value: "yourpassword"
+          value: "GlUjqtJyc5AI[gCLXVSc0JZEODVI"
         - name: DB_NAME
           value: "mydb"
