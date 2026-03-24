@@ -20,4 +20,4 @@ spec:
         - containerPort: 8080
         env:
         - name: DB_HOST
-          value: "your-db-host"
+          value: "mydb.c3cay4ksor3z.ap-south-1.rds.amazonaws.com:3306"
