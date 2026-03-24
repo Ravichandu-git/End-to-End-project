@@ -65,11 +65,21 @@ stage('Push to ECR') {
         '''
       }
    }
+   
+   stage('Check AWS Identity') {
+  steps {
+    sh '''
+    aws sts get-caller-identity
+    '''
+  }
+}
 
-    stage('Deploy to Kubernetes') {
+  stage('Deploy to Kubernetes') {
   steps {
     sh '''
     sed -i "s/REPLACE_TAG/${BUILD_NUMBER}/g" k8s/*.yaml
+
+    kubectl apply -f k8s/namespace.yaml 
 
     kubectl apply -f k8s/backend.yaml
     kubectl apply -f k8s/backend-service.yaml
