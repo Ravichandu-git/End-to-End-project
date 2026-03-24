@@ -28,4 +28,4 @@ spec:
         - name: DB_PASSWORD
           value: "GlUjqtJyc5AI[gCLXVSc0JZEODVI"
         - name: DB_NAME
-          value: "mydb"
+          value: "appdb"
